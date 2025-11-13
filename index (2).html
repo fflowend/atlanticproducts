@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowend Store | Anlık Fiyat Hesaplayıcı</title>
+    <!-- Tailwind CSS CDN Eklendi -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font Eklendi -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Flowend Store Renk Teması: C9B59C, D9CFC7, EFE9E3, F9F8F6 */
+        .body-bg {
+            background-color: #F9F8F6; /* En açık renk, arka plan */
+        }
+        .card-bg {
+            background-color: #EFE9E3; /* Ana kart rengi */
+        }
+        .accent-color {
+            color: #C9B59C; /* Ana vurgu rengi */
+        }
+        .accent-border {
+            border-color: #C9B59C;
+        }
+        .text-dark {
+            color: #3f3123; /* Koyu metin için */
+        }
+        .text-medium {
+            color: #6d5b4a; /* Orta koyu metin için */
+        }
+        .text-subtle {
+            color: #837467; /* Alt başlıklar için */
+        }
+        .error-text {
+            color: #B54F4F; /* Hata mesajları için */
+        }
+        .body-bg {
+             font-family: 'Inter', sans-serif;
+        }
+        
+        /* Arkaplan Logo Animasyonu */
+        #background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw; /* Tüm genişliği kapla */
+            height: 100vh; /* Tüm yüksekliği kapla */
+            z-index: -1; /* Uygulamanın arkasında kalmasını sağlar */
+            /* Logoyu tekrar eden bir desen olarak kullan */
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQFTmdVqxy7Rc1gR944Qysw1HiPuOiUI9wZA&s');
+            background-repeat: repeat; /* Yatay ve Dikey Tekrar */
+            background-size: 80px auto; /* Logo boyutu */
+            opacity: 0.1; /* Çok hafif ve zarif olması için düşük opaklık */
+            animation: move-logos 150s linear infinite; /* Çok yavaş sağdan sola hareket */
+            /* Logodaki orijinal renkleri soldurmak için */
+            filter: grayscale(100%) brightness(1.5) contrast(0.5); 
+        }
+
+        @keyframes move-logos {
+            /* Sağdan sola çok yavaş ve sürekli hareket */
+            from { background-position: 0 0; }
+            to { background-position: -8000px 0; } 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex justify-center items-center p-4 body-bg overflow-hidden">
+
+    <!-- Arkaplan Animasyonu Başlangıcı -->
+    <div id="background-pattern"></div>
+    <!-- Arkaplan Animasyonu Bitişi -->
+
+    <div id="app" class="w-full max-w-lg shadow-2xl rounded-xl p-6 sm:p-8 space-y-6 border border-gray-300 card-bg accent-border relative z-10">
+        <!-- Başlık -->
+        <h1 class="text-3xl font-bold text-center text-medium">Flowend Store</h1>
+        <p class="text-center text-sm text-subtle">Anlık Hizmet Fiyatı Hesaplama Aracı</p>
+
+        <!-- Seçim Alanı -->
+        <div class="space-y-4">
+            <!-- Platform Seçimi -->
+            <div>
+                <label for="platformSelect" class="block text-sm font-medium mb-1 text-medium">Platform Seçin</label>
+                <select id="platformSelect" onchange="filterServices()" class="select-style w-full p-3 border rounded-lg shadow-sm focus:ring-[#C9B59C] focus:border-[#C9B59C] transition duration-150 ease-in-out bg-white text-dark" style="border-color: #D9CFC7;">
+                    <option value="">-- Platform Seçiniz --</option>
+                </select>
+            </div>
+
+            <!-- Hizmet Seçimi -->
+            <div>
+                <label for="serviceSelect" class="block text-sm font-medium mb-1 text-medium">Hizmet Seçin</label>
+                <select id="serviceSelect" onchange="updateMinMax(); calculatePrice()" class="select-style w-full p-3 border rounded-lg shadow-sm focus:ring-[#C9B59C] focus:border-[#C9B59C] transition duration-150 ease-in-out bg-white text-dark" style="border-color: #D9CFC7;" disabled>
+                    <option value="">-- Hizmet Seçiniz --</option>
+                </select>
+            </div>
+
+            <!-- Miktar Girişi -->
+            <div>
+                <label for="quantityInput" class="block text-sm font-medium mb-1 text-medium">Miktar (Adet)</label>
+                <input type="number" id="quantityInput" oninput="calculatePrice()" min="1" step="1" placeholder="Miktar Giriniz (Min: 1)" class="w-full p-3 border rounded-lg shadow-sm focus:ring-[#C9B59C] focus:border-[#C9B59C] transition duration-150 ease-in-out text-dark" style="border-color: #D9CFC7;">
+                <p id="minMaxInfo" class="text-xs mt-1 h-4 error-text">Lütfen hizmet seçin.</p>
+            </div>
+        </div>
+
+        <!-- Sonuç Kartı -->
+        <div id="resultCard" class="p-5 rounded-xl border-l-4 shadow-inner" style="background-color: #F9F8F6; border-color: #C9B59C;">
+            <h3 class="text-lg font-semibold mb-3 text-medium">Sipariş Maliyeti</h3>
+            <div class="space-y-2">
+                <div class="flex justify-between border-b pb-1" style="border-color: #D9CFC7;">
+                    <span class="text-sm font-medium text-subtle" id="unitPriceLabel">Birim Fiyat (1000 Adet Başına)</span>
+                    <span id="unitPriceDisplay" class="text-sm font-bold text-medium">-- TL</span>
+                </div>
+                <div class="flex justify-between pt-1">
+                    <span class="text-xl font-bold text-medium">TOPLAM TUTAR</span>
+                    <span id="totalPriceDisplay" class="text-2xl font-extrabold text-dark">0,00 TL</span>
+                </div>
+            </div>
+            <p id="errorMsg" class="text-center mt-3 text-sm font-medium hidden error-text"></p>
+        </div>
+    </div>
+
+    <script>
+        // FİYAT HESAPLAYICI LOGİĞİ
+        // Fiyatlar 1000 adet (1K) başına TL olarak tanımlanmıştır.
+        // Tüm fiyatlara toplamda %14.4 zam uygulanmıştır (1.04 * 1.10 = 1.144).
+        const allServices = [
+            // --- Instagram ---
+            { platform: "Instagram", id: 11658, name: "Garantili Takipçi (30 Gün Telafili)", price_per_k: 169.588848, min: 10, max: 101000000 },
+            { platform: "Instagram", id: 11245, name: "Garantili Takipçi (İptal Butonlu)", price_per_k: 197.853656, min: 50, max: 505000000 },
+            { platform: "Instagram", id: 4507, name: "%100 Organik Türk Takipçi", price_per_k: 983.7828, min: 10, max: 3000 },
+            { platform: "Instagram", id: 11716, name: "Global Beğeni", price_per_k: 11.744304, min: 100, max: 500000 },
+            { platform: "Instagram", id: 11299, name: "Mobil Data Türk Beğeni", price_per_k: 55.699072, min: 20, max: 1000 },
+            { platform: "Instagram", id: 11238, name: "Video İzlenme (Reels Uyumlu, Hızlı)", price_per_k: 0.37752, min: 100, max: 100000000 },
+            { platform: "Instagram", id: 10806, name: "Paket: 25 Yorum + Beğeni (1 Adet)", price_per_k: 34320.00, min: 1, max: 11, isPackage: true }, 
+            { platform: "Instagram", id: 4172, name: "Anlamlı Türk Yorum", price_per_k: 1180.53936, min: 5, max: 1000 },
+            { platform: "Instagram", id: 11640, name: "Global Beğeni (30 Gün Telafili)", price_per_k: 59.67104, min: 100, max: 500000 },
+            
+            // --- TikTok ---
+            { platform: "TikTok", id: 4220, name: "Türk Takipçi", price_per_k: 824.0232, min: 10, max: 1000 },
+            { platform: "TikTok", id: 10740, name: "Global Beğeni (30 Gün Telafili)", price_per_k: 7.537816, min: 10, max: 10000000 },
+            { platform: "TikTok", id: 11706, name: "Video İzlenme (Hızlı Başlar)", price_per_k: 0.506792, min: 100, max: 2147483647 },
+            { platform: "TikTok", id: 5073, name: "Beğeni (Gerçek, Düşme Yok)", price_per_k: 79.19582, min: 100, max: 500000 },
+
+            // --- YouTube ---
+            { platform: "YouTube", id: 4224, name: "Reklam İzlenme (365 Gün Telafili)", price_per_k: 114.40, min: 20000, max: 10000000 },
+            { platform: "YouTube", id: 9650, name: "Beğeni (90 Gün Telafili)", price_per_k: 22.612304, min: 10, max: 100000 },
+            { platform: "YouTube", id: 4547, name: "Türk İzlenme (365 Gün Telafili)", price_per_k: 171.60, min: 20000, max: 10000000 },
+            { platform: "YouTube", id: 4219, name: "Türk Abone (Max 500)", price_per_k: 2186.184, min: 10, max: 500 },
+            { platform: "YouTube", id: 11744, name: "Canlı Yayın İzlenme (15 Dakika)", price_per_k: 3.42056, min: 50, max: 500000 },
+
+            // --- Twitter ---
+            { platform: "Twitter", id: 9751, name: "Tweet Görüntülenme", price_per_k: 0.50336, min: 100, max: 100000000 },
+            { platform: "Twitter", id: 10766, name: "Garantili Takipçi (30 Gün Telafili)", price_per_k: 289.432, min: 10, max: 1000000 },
+            { platform: "Twitter", id: 8478, name: "Türk Takipçi (Max 2K)", price_per_k: 1951.95, min: 10, max: 2000 },
+            { platform: "Twitter", id: 4703, name: "Türk Beğeni", price_per_k: 655.8552, min: 10, max: 1000 },
+
+            // --- Telegram ---
+            { platform: "Telegram", id: 10243, name: "Grup Üyesi (30 Gün Telafili)", price_per_k: 33.2904, min: 10, max: 100000 },
+            { platform: "Telegram", id: 9944, name: "Post Görüntülenme (Max 40K)", price_per_k: 0.44044, min: 1000, max: 40000 },
+            { platform: "Telegram", id: 10988, name: "Türk Post Görüntülenme", price_per_k: 3.96, min: 50, max: 100000 },
+
+            // --- Facebook ---
+            { platform: "Facebook", id: 9993, name: "Profil/Sayfa Takipçi (30 Gün Telafili)", price_per_k: 45.726824, min: 10, max: 1000000 },
+            { platform: "Facebook", id: 10756, name: "Sayfa Beğeni + Takipçi (30 Gün Telafili)", price_per_k: 53.408784, min: 10, max: 1000000 },
+            { platform: "Facebook", id: 10840, name: "Gönderi Beğenisi", price_per_k: 13.002704, min: 10, max: 500000 },
+
+            // --- Spotify ---
+            { platform: "Spotify", id: 4209, name: "Global Takipçi (180 Gün Telafili)", price_per_k: 11.306152, min: 100, max: 100000000 },
+            { platform: "Spotify", id: 6582, name: "Global Dinlenme (Ömür Boyu Telafili)", price_per_k: 6.281704, min: 500, max: 20000000 },
+            { platform: "Spotify", id: 5278, name: "Aylık Türk Dinleyici", price_per_k: 75.382296, min: 500, max: 25000 },
+
+            // --- Diğer (Twitch/Discord/Kwai/Website) ---
+            { platform: "Diğer", id: 9340, name: "Twitch Takipçi (30 Gün Telafili)", price_per_k: 8.800528, min: 20, max: 10000 },
+            { platform: "Diğer", id: 10844, name: "Discord Offline Üye (30 Gün Telafili)", price_per_k: 157.026584, min: 50, max: 110000 },
+            { platform: "Diğer", id: 4309, name: "Kwai Türk Takipçi (Max 200)", price_per_k: 3513.51, min: 10, max: 200 },
+            { platform: "Diğer", id: 4179, name: "Website Organik Trafik (Max 200)", price_per_k: 2186.184, min: 10, max: 200 },
+        ];
+
+        const platformSelect = document.getElementById('platformSelect');
+        const serviceSelect = document.getElementById('serviceSelect');
+        const quantityInput = document.getElementById('quantityInput');
+        const unitPriceDisplay = document.getElementById('unitPriceDisplay');
+        const unitPriceLabel = document.getElementById('unitPriceLabel');
+        const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+        const minMaxInfo = document.getElementById('minMaxInfo');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Sayfa yüklendiğinde platform seçeneklerini doldurur
+        document.addEventListener('DOMContentLoaded', () => {
+            const platforms = [...new Set(allServices.map(s => s.platform))].sort();
+            platforms.forEach(platform => {
+                const option = document.createElement('option');
+                option.value = platform;
+                option.textContent = platform;
+                platformSelect.appendChild(option);
+            });
+            resetDisplays();
+        });
+
+        // Platform seçimine göre hizmetler dropdown'unu filtreler
+        function filterServices() {
+            const selectedPlatform = platformSelect.value;
+            serviceSelect.innerHTML = '<option value="">-- Hizmet Seçiniz --</option>';
+            serviceSelect.disabled = true;
+            quantityInput.disabled = true;
+            resetDisplays();
+
+            if (selectedPlatform) {
+                const filteredServices = allServices.filter(s => s.platform === selectedPlatform);
+                filteredServices.forEach(service => {
+                    const option = document.createElement('option');
+                    option.value = service.id;
+                    option.textContent = service.name;
+                    serviceSelect.appendChild(option);
+                });
+                serviceSelect.disabled = false;
+            }
+        }
+
+        // Seçilen hizmetin minimum/maksimum bilgilerini günceller
+        function updateMinMax() {
+            const selectedId = parseInt(serviceSelect.value);
+            const service = allServices.find(s => s.id === selectedId);
+            
+            minMaxInfo.textContent = 'Lütfen hizmet seçin.';
+            quantityInput.disabled = true;
+            unitPriceLabel.textContent = 'Birim Fiyat (1000 Adet Başına)'; // Label'ı sıfırla
+
+            if (service) {
+                const maxDisplay = service.max.toLocaleString('tr-TR');
+                minMaxInfo.textContent = `Min: ${service.min.toLocaleString('tr-TR')} | Max: ${maxDisplay}`;
+                
+                quantityInput.min = service.min;
+                quantityInput.placeholder = `Miktar Giriniz (Min: ${service.min.toLocaleString('tr-TR')})`;
+                quantityInput.value = service.min; // Otomatik olarak minimum miktarı ata
+                quantityInput.disabled = false;
+
+                // Eğer paket hizmetiyse, birim fiyat etiketini günceller
+                if(service.isPackage) {
+                    unitPriceLabel.textContent = 'Paket Fiyatı';
+                }
+            }
+        }
+
+        // Fiyat hesaplamasını yapar
+        function calculatePrice() {
+            const selectedId = parseInt(serviceSelect.value);
+            const quantity = parseFloat(quantityInput.value);
+
+            if (!selectedId || isNaN(quantity) || quantity <= 0) {
+                resetDisplays();
+                return;
+            }
+
+            const service = allServices.find(s => s.id === selectedId);
+            
+            if (!service) {
+                resetDisplays();
+                return;
+            }
+
+            const min = service.min;
+            const max = service.max;
+
+            // Miktar kontrolü
+            if (quantity < min) {
+                displayError(`Hata: Minimum sipariş miktarı ${formatNumber(min)} olmalıdır.`);
+                return;
+            }
+            if (quantity > max) {
+                displayError(`Hata: Maksimum sipariş miktarı ${formatNumber(max)} olmalıdır.`);
+                return;
+            }
+            
+            errorMsg.classList.add('hidden');
+
+            let pricePerUnit = service.price_per_k / 1000;
+            let totalPrice = quantity * pricePerUnit;
+            let displayPrice = service.price_per_k;
+
+            // Eğer paket hizmetiyse, gösterilen birim fiyatı paket fiyatı yapar (price_per_k/1000)
+            if(service.isPackage) {
+                displayPrice = pricePerUnit;
+                unitPriceDisplay.textContent = `${formatCurrency(displayPrice)} TL`;
+            } else {
+                // Standart 1K bazlı hizmetler, 1K fiyatını gösterir
+                unitPriceDisplay.textContent = `${formatCurrency(displayPrice)} TL`;
+            }
+
+            totalPriceDisplay.textContent = `${formatCurrency(totalPrice)} TL`;
+        }
+
+        // Yardımcı fonksiyon: Sayıları Türkçe formatta (virgül ondalık) ve binlik ayraçlı gösterir
+        function formatCurrency(number) {
+            // Sayıyı 4 ondalık hassasiyetle yuvarlar ve tr-TR formatında gösterir
+            const rounded = Math.round(number * 10000) / 10000;
+            return rounded.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+        }
+
+        // Yardımcı fonksiyon: Sayıları binlik ayraçlı gösterir
+        function formatNumber(number) {
+            return number.toLocaleString('tr-TR');
+        }
+
+        // Ekranları başlangıç durumuna döndürür
+        function resetDisplays() {
+            unitPriceDisplay.textContent = '-- TL';
+            totalPriceDisplay.textContent = '0,00 TL';
+            minMaxInfo.textContent = 'Lütfen hizmet seçin.';
+            quantityInput.value = '';
+            errorMsg.classList.add('hidden');
+            unitPriceLabel.textContent = 'Birim Fiyat (1000 Adet Başına)';
+        }
+
+        // Hata mesajını gösterir
+        function displayError(message) {
+            errorMsg.textContent = message;
+            errorMsg.classList.remove('hidden');
+            unitPriceDisplay.textContent = '-- TL';
+            totalPriceDisplay.textContent = '0,00 TL';
+        }
+    </script>
+</body>
+</html>
