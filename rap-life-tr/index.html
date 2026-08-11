@@ -4,98 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0b0c0f">
 <title>RAP LIFE TR</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0b0c0f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,Inter,Arial;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}button,select,input{background:#22252d;color:white;border:1px solid #343843;border-radius:12px;padding:11px;font:inherit}button{font-weight:700}.primary{background:#f05b3f;border:0}.muted{color:#9da3ae;font-size:12px}.hidden{display:none!important}
-.auth{position:fixed;inset:0;background:radial-gradient(circle at 50% 0,#2a2020,#0b0c0f 55%);z-index:50;display:grid;place-items:center;padding:18px}
-.authbox{width:min(100%,430px);background:#15171c;border:1px solid #2b2e37;border-radius:24px;padding:22px}
-.authbox h1{margin:0;font-size:32px}.authbox p{color:#9da3ae}.authbox input{width:100%;margin:7px 0}.authrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-header{position:sticky;top:0;background:#0b0c0fee;padding:12px 2px;z-index:5}h1{margin:0;font-size:24px}.sub{color:#9da3ae;font-size:12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat,.card{background:#17191f;border:1px solid #292c35;border-radius:16px;padding:12px}.stat b{display:block;font-size:15px}.stat span,label{font-size:11px;color:#9da3ae}.tabs{display:flex;gap:7px;overflow:auto;padding:8px 0 12px}.tabs button{white-space:nowrap}.grid{display:grid;gap:10px}.row{display:flex;gap:8px}.row>*{flex:1}h2{font-size:17px;margin:3px 0 10px}.screen{display:none}.screen.on{display:grid}.item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#17191f;border:1px solid #292c35;border-radius:14px;padding:11px}.good{color:#68d391}.bad{color:#ff7777}.tweet{padding:10px;border-bottom:1px solid #292c35}.toast{position:fixed;bottom:25px;left:14px;right:14px;background:#fff;color:#111;padding:12px;border-radius:13px;display:none;z-index:90}.modal{position:fixed;inset:0;background:#000c;z-index:80;display:grid;place-items:end center}.modalbox{width:100%;background:#17191f;border-radius:22px 22px 0 0;padding:18px 14px calc(18px + env(safe-area-inset-bottom));border-top:1px solid #343843}.modalbox input{width:100%;margin:8px 0}.danger{background:#3a1e1e}
+*{box-sizing:border-box}html,body{margin:0;background:#0b0c0f;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,Inter,Arial,sans-serif}body{min-height:100dvh;padding:env(safe-area-inset-top) 14px calc(18px + env(safe-area-inset-bottom))}.hidden{display:none!important}button,input,select{font:inherit;color:white;background:#20232b;border:1px solid #343944;border-radius:13px;padding:12px}button{font-weight:800}.primary{background:#f05b3f;border:0}.muted{color:#969da9;font-size:12px}.good{color:#69da98}.bad{color:#ff7f73}.card{background:#16181e;border:1px solid #292d36;border-radius:18px;padding:14px}.grid{display:grid;gap:10px}.row{display:flex;gap:8px}.row>*{flex:1}.item{display:flex;gap:10px;justify-content:space-between;align-items:center;background:#17191f;border:1px solid #292d36;padding:12px;border-radius:14px}.item small{display:block;color:#9299a5;margin-top:4px}.item button:disabled{opacity:.45}.toast{position:fixed;left:14px;right:14px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:100;background:#fff;color:#111;padding:13px;border-radius:14px;display:none;font-weight:700}.screen{display:none}.screen.on{display:grid;gap:10px}.sectionTitle{font-size:17px;margin:0 0 10px}
+.auth{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 0,#2f2222,#0b0c0f 58%);display:grid;place-items:center;padding:20px}.authBox{width:min(100%,430px);background:#15171c;border:1px solid #2c3039;border-radius:26px;padding:24px;box-shadow:0 30px 80px #0009}.logo{font-size:31px;font-weight:950;letter-spacing:-1.4px}.logo span{color:#f05b3f}.authBox p{color:#9ca3af}.authBox input{width:100%;margin:6px 0}.authSwitch{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}.authSwitch button.active{background:#30343d}.authNote{font-size:10px;color:#737b88;margin-top:10px;line-height:1.45}
+.topbar{position:sticky;top:0;z-index:30;background:#0b0c0feF;padding:10px 0 12px;backdrop-filter:blur(16px)}.toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}.artistBlock{min-width:0}.artistBlock h1{font-size:21px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artistBlock div{font-size:11px;color:#969da9}.menuBtn{width:48px;height:48px;border-radius:15px;font-size:22px;padding:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}.stat{background:#17191f;border:1px solid #292d36;border-radius:15px;padding:11px}.stat span{font-size:10px;color:#9199a5;display:block}.stat b{display:block;margin-top:4px;font-size:15px}
+.drawerBackdrop{position:fixed;inset:0;background:#000a;z-index:70}.drawer{position:fixed;top:0;right:0;bottom:0;width:min(86vw,360px);z-index:80;background:#111319;border-left:1px solid #2d313a;padding:calc(18px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom));overflow:auto}.drawerHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.drawerHead b{font-size:18px}.drawerNav{display:grid;gap:7px}.drawerNav button{text-align:left;background:#1b1e25;padding:14px}.drawerNav button.active{background:#f05b3f}.drawerBottom{margin-top:18px;border-top:1px solid #2c3038;padding-top:12px}
+.hero{min-height:145px;background:linear-gradient(135deg,#2a1c1a,#15171d 62%);border:1px solid #302c2d;border-radius:20px;padding:18px;display:flex;flex-direction:column;justify-content:flex-end}.hero h2{font-size:26px;margin:0}.hero p{margin:6px 0 0;color:#a3a7af;font-size:12px}.modal{position:fixed;inset:0;background:#000c;z-index:120;display:grid;place-items:end center}.modalBox{width:100%;background:#17191f;border-radius:24px 24px 0 0;border-top:1px solid #343944;padding:20px 14px calc(20px + env(safe-area-inset-bottom))}.modalBox input{width:100%;margin:8px 0}.tweet{padding:11px 0;border-bottom:1px solid #2a2e37}.tweet:last-child{border-bottom:0}.tweet b{font-size:12px}.tweet p{margin:5px 0 0;font-size:13px}.diss p{color:#ff9c8e}.respect p{color:#8fe0ae}
 </style>
 </head>
 <body>
 <div id="auth" class="auth">
-  <div class="authbox">
-    <h1>RAP LIFE TR</h1>
-    <p>Rap kariyerini oluştur ve oyuna başla.</p>
-    <input id="email" type="email" placeholder="E-posta">
-    <input id="password" type="password" placeholder="Şifre">
+  <div class="authBox">
+    <div class="logo">RAP LIFE <span>TR</span></div>
+    <p id="authTitle">Yeni sanatçı hesabı oluştur.</p>
+    <div class="authSwitch"><button id="regTab" class="active" onclick="authMode('register')">Kayıt Ol</button><button id="loginTab" onclick="authMode('login')">Giriş Yap</button></div>
+    <input id="email" type="email" autocomplete="email" placeholder="E-posta adresi">
+    <input id="password" type="password" autocomplete="current-password" placeholder="Şifre">
     <input id="stage" placeholder="Sanatçı adı / mahlas">
-    <div class="authrow">
-      <button class="primary" onclick="registerLocal()">Kayıt Ol</button>
-      <button onclick="loginLocal()">Giriş Yap</button>
-    </div>
-    <p class="muted" style="margin-top:10px">Şu an hesap bu cihazda saklanır. Gerçek çevrimiçi hesap sistemi için Firebase bağlantısı eklenecek.</p>
+    <button id="authAction" class="primary" style="width:100%;margin-top:7px" onclick="submitAuth()">Hesap Oluştur</button>
+    <div class="authNote">Bu sürümde hesap ve kayıt cihazında saklanıyor. Gerçek internet hesabı için Firebase bağlantısı gerekiyor; arayüz buna hazır.</div>
   </div>
 </div>
 
-<header>
-  <h1 id="title">RAP LIFE TR</h1>
-  <div class="sub"><span id="artistName"></span> • Mobil kariyer simülasyonu</div>
-  <div class="stats">
-    <div class="stat"><span>Gün</span><b id="day">1</b></div>
-    <div class="stat"><span>Para</span><b id="money">₺12.000</b></div>
-    <div class="stat"><span>Şöhret</span><b id="fame">500</b></div>
-  </div>
-  <div class="tabs" id="tabs"></div>
+<div id="drawerBackdrop" class="drawerBackdrop hidden" onclick="closeMenu()"></div>
+<aside id="drawer" class="drawer hidden">
+  <div class="drawerHead"><b>Menü</b><button onclick="closeMenu()">✕</button></div>
+  <div id="drawerNav" class="drawerNav"></div>
+  <div class="drawerBottom"><div class="muted" id="accountEmail"></div><button style="width:100%;margin-top:8px" onclick="logout()">Çıkış Yap</button></div>
+</aside>
+
+<header class="topbar">
+  <div class="toprow"><div class="artistBlock"><h1 id="pageTitle">Kariyer Merkezi</h1><div><span id="artistName">-</span> • RAP LIFE TR</div></div><button class="menuBtn" onclick="openMenu()">☰</button></div>
+  <div class="stats"><div class="stat"><span>GÜN</span><b id="day">1</b></div><div class="stat"><span>BAKİYE</span><b id="money">₺0</b></div><div class="stat"><span>ŞÖHRET</span><b id="fame">0</b></div></div>
 </header>
 
 <main>
-<section id="career" class="screen on grid">
-  <div class="card"><h2>Kariyer</h2><div id="careerInfo"></div><button style="margin-top:8px;width:100%" onclick="rest()">Dinlen / Ertesi Güne Geç</button></div>
-</section>
-<section id="studio" class="screen grid">
-  <div class="card"><h2>Yeni Şarkı</h2><label>Şarkı adı</label><input id="song" placeholder="Şarkı ismi zorunlu"><button class="primary" onclick="release()" style="margin-top:8px;width:100%">Yayınla</button></div>
-</section>
-<section id="duet" class="screen grid">
-  <div class="card"><h2>Düetler</h2><div class="muted">Şöhret eşiğin yetmiyorsa teklif veremezsin. Düet için şarkı adı zorunlu.</div><select id="sort" onchange="artists()" style="margin-top:8px;width:100%"><option value="asc">Ucuzdan pahalıya</option><option value="desc">Pahalıdan ucuza</option></select></div>
-  <div id="artists" class="grid"></div>
-</section>
-<section id="gear" class="screen grid"><div class="card"><h2>Ekipmanlar</h2><div id="gears" class="grid"></div></div></section>
-<section id="team" class="screen grid"><div class="card"><h2>Kreatif Ekip</h2><div id="teams" class="grid"></div></div></section>
-<section id="brand" class="screen grid"><div class="card"><h2>Sponsorluklar</h2><div id="brands" class="grid"></div></div></section>
-<section id="social" class="screen grid">
-  <div class="card"><h2>Sosyal Medya</h2><select id="target"></select><div class="row" style="margin-top:8px"><button onclick="tweet('respect')">Respect At</button><button onclick="tweet('diss')">Laf Sok</button></div></div>
-  <div class="card" id="feed"></div>
-</section>
-<section id="relationships" class="screen grid"><div class="card"><h2>İlişkiler</h2><div id="gf">Bekarsın.</div><button onclick="girlfriend()" style="margin-top:8px">Tanış</button></div></section>
-<section id="songsScreen" class="screen grid"><div class="card"><h2>Diskografi</h2><div id="songs"></div></div></section>
+<section id="career" class="screen on"><div class="hero"><h2 id="heroStage">-</h2><p id="careerInfo"></p></div><div class="card"><h2 class="sectionTitle">Günlük Kariyer</h2><button class="primary" style="width:100%" onclick="rest()">Dinlen / Ertesi Güne Geç</button><div class="muted" style="margin-top:8px">Dinlenme 5 saniyede bir kullanılabilir. Şarkıların her gün doğal biçimde stream toplamaya devam eder.</div></div></section>
+<section id="studio" class="screen"><div class="card"><h2 class="sectionTitle">Yeni Şarkı Yayınla</h2><input id="song" style="width:100%" placeholder="Şarkı adı — zorunlu"><button class="primary" style="width:100%;margin-top:8px" onclick="release()">Şarkıyı Yayınla</button></div></section>
+<section id="duet" class="screen"><div class="card"><h2 class="sectionTitle">Düet Pazarı</h2><select id="sort" style="width:100%" onchange="artists()"><option value="asc">Ucuzdan pahalıya</option><option value="desc">Pahalıdan ucuza</option></select><div class="muted" style="margin-top:8px">Gerekli şöhretin altındaysan teklif veremezsin. Düette şarkı ismi zorunludur.</div></div><div id="artists" class="grid"></div></section>
+<section id="gear" class="screen"><div class="card"><h2 class="sectionTitle">Stüdyo Ekipmanları</h2><div id="gears" class="grid"></div></div></section>
+<section id="team" class="screen"><div class="card"><h2 class="sectionTitle">Kreatif Ekip</h2><div id="teams" class="grid"></div></div></section>
+<section id="brand" class="screen"><div class="card"><h2 class="sectionTitle">Sponsorluklar & PR</h2><div id="brands" class="grid"></div></div></section>
+<section id="social" class="screen"><div class="card"><h2 class="sectionTitle">Sosyal Medya</h2><select id="target" style="width:100%"></select><div class="row" style="margin-top:8px"><button onclick="tweet('respect')">Respect At</button><button onclick="tweet('diss')">Laf Sok</button></div></div><div class="card" id="feed"></div></section>
+<section id="relationships" class="screen"><div class="card"><h2 class="sectionTitle">İlişkiler</h2><div id="gf">Bekarsın.</div><button style="margin-top:9px" onclick="girlfriend()">Biriyle Tanış</button></div></section>
+<section id="songsScreen" class="screen"><div class="card"><h2 class="sectionTitle">Diskografi</h2><div id="songs"></div></div></section>
 </main>
 
-<div id="duetModal" class="modal hidden"><div class="modalbox"><h2 id="duetTitle"></h2><div id="duetReq" class="muted"></div><input id="duetSong" placeholder="Düet şarkısının adı"><div class="row"><button onclick="closeDuet()">Vazgeç</button><button class="primary" onclick="confirmDuet()">Düeti Yap</button></div></div></div>
-<div class="toast" id="toast"></div>
-
+<div id="duetModal" class="modal hidden"><div class="modalBox"><h2 id="duetTitle" class="sectionTitle"></h2><div id="duetReq" class="muted"></div><input id="duetSong" placeholder="Düet şarkısının adı — zorunlu"><div class="row"><button onclick="closeDuet()">Vazgeç</button><button class="primary" onclick="confirmDuet()">Düeti Yayınla</button></div></div></div>
+<div id="toast" class="toast"></div>
 <script>
-const A=[
-['Flowart',350,350],['Kavak',420,420],['Selo',480,480],['Kava',500,500],['Ali Chapo',750,750],['Modd',1250,1250],['Aksan',2300,2300],['Stabil',4000,4000],['Tepki',4500,4500],['Aspova',6000,6000],['Kayra',8000,8000],['Patron',11000,11000],['Motive',125000,125000],['UZI',175000,175000],['Ezhel',220000,220000],['Central Cee',1100000,1100000],['Travis Scott',2500000,2500000],['Drake',3500000,3500000]];
-const G=[['Mikrofon: giriş seviye',2500,2],['Mikrofon: condenser',9000,5],['Mikrofon: profesyonel',45000,10],['Ses kartı',6500,4],['Referans hoparlörü',16000,6],['Akustik yalıtım',12000,6],['Prodüksiyon bilgisayarı',40000,7]];
-const T=[['Beatmaker',3500,3],['Mix Engineer',5000,4],['Aranjör',4500,4],['Cover Art Tasarımcısı',2500,2],['Klip Yönetmeni',18000,7],['Stylist',7000,4]];
-const B=[['Butik sayfa sponsorluğu',1200],['Yerel giyim markası',3500],['Ufak firma kampanyası',7000],['Influencer ortaklığı',12000],['TikTok PR',18000]];
-let currentUser=null,S=null,pendingDuet=null,lastRest=0;
-function userKey(e){return 'raplife:user:'+e.toLowerCase()}
-function pop(x){let e=document.getElementById('toast');e.textContent=x;e.style.display='block';setTimeout(()=>e.style.display='none',1800)}
-function fmt(n){return '₺'+Math.round(n).toLocaleString('tr-TR')}
-function defaultState(stage){return{day:1,money:12000,fame:400,q:0,songs:[],owned:[],cool:0,gf:false,stage}}
-async function hash(s){let b=new TextEncoder().encode(s),h=await crypto.subtle.digest('SHA-256',b);return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-async function registerLocal(){let e=email.value.trim().toLowerCase(),p=password.value,st=stage.value.trim();if(!e||!p||!st)return pop('E-posta, şifre ve sanatçı adı zorunlu.');if(localStorage.getItem(userKey(e)))return pop('Bu e-posta bu cihazda kayıtlı.');let rec={hash:await hash(p),state:defaultState(st)};localStorage.setItem(userKey(e),JSON.stringify(rec));currentUser=e;S=rec.state;localStorage.raplifeSession=e;enter()}
-async function loginLocal(){let e=email.value.trim().toLowerCase(),p=password.value,rec=JSON.parse(localStorage.getItem(userKey(e))||'null');if(!rec)return pop('Bu cihazda böyle bir hesap yok.');if(rec.hash!==await hash(p))return pop('Şifre yanlış.');currentUser=e;S=rec.state;localStorage.raplifeSession=e;enter()}
-function persist(){if(currentUser){let rec=JSON.parse(localStorage.getItem(userKey(currentUser)));rec.state=S;localStorage.setItem(userKey(currentUser),JSON.stringify(rec))}draw()}
-function enter(){auth.classList.add('hidden');artistName.textContent=S.stage;draw()}
-let nav=[['Kariyer','career'],['Stüdyo','studio'],['Düetler','duet'],['Ekipmanlar','gear'],['Kreatif Ekip','team'],['Sponsorluklar','brand'],['Sosyal Medya','social'],['İlişkiler','relationships'],['Diskografi','songsScreen']];
-tabs.innerHTML=nav.map(([n,id])=>`<button onclick="tab('${id}')">${n}</button>`).join('');
-function tab(x){document.querySelectorAll('.screen').forEach(e=>e.classList.remove('on'));document.getElementById(x).classList.add('on')}
-function release(){let n=song.value.trim();if(!n)return pop('Şarkı adı girmeden yayınlayamazsın.');let cost=900+S.q*140;if(S.money<cost)return pop('Prodüksiyon için paran yetmiyor.');S.money-=cost;let base=Math.max(70,Math.round((120+S.fame*.05)*(1+S.q*.12)*(0.8+Math.random()*.35)));S.songs.unshift({n,s:base});S.fame+=Math.max(1,Math.round(base/120));song.value='';persist();pop(`${n} yayınlandı • ${base} ilk gün stream`)}
+const A=[['Flowart',350,350],['Kavak',420,420],['Selo',480,480],['Kava',500,500],['Ali Chapo',750,750],['Modd',1250,1250],['Aksan',2300,2300],['Stabil',4000,4000],['Tepki',4500,4500],['Aspova',6000,6000],['Kayra',8000,8000],['Patron',11000,11000],['Motive',125000,125000],['UZI',175000,175000],['Ezhel',220000,220000],['Central Cee',1100000,1100000],['Travis Scott',2500000,2500000],['Drake',3500000,3500000]];
+const G=[['BM-800 Mikrofon',1800,2],['Audio-Technica AT2020',6400,6],['RØDE NT1',14200,11],['Shure SM7B',39600,18],['M-Track Solo Ses Kartı',4200,3],['Focusrite Scarlett 2i2',13200,10],['Referans Monitör Çifti',14500,8],['Profesyonel Akustik Yalıtım',65000,17],['Prodüksiyon Bilgisayarı',35000,7],['Profesyonel Workstation',120000,16]];
+const T=[['YouTube Type Beat',800,1],['Underground Beatmaker',3500,4],['Profesyonel Beatmaker',22000,13],['Freelance Mix Engineer',4500,4],['Senior Mix Engineer',28000,14],['Aranjör',12000,8],['Cover Art Tasarımcısı',5500,5],['Klip Yönetmeni',25000,7],['Stylist',14000,5]];
+const B=[['Butik Sayfa Story',1800],['Yerel Marka İşbirliği',4500],['Influencer Ortaklığı',8500],['TikTok PR Kampanyası',14500],['Orta Ölçekli Marka',28000],['Büyük Kampanya',75000]];
+const NAV=[['Kariyer Merkezi','career'],['Stüdyo','studio'],['Düetler','duet'],['Stüdyo Ekipmanları','gear'],['Kreatif Ekip','team'],['Sponsorluklar & PR','brand'],['Sosyal Medya','social'],['İlişkiler','relationships'],['Diskografi','songsScreen']];
+let mode='register',currentUser=null,S=null,pendingDuet=null,lastRest=0,currentScreen='career';
+function $(id){return document.getElementById(id)}function fmt(n){return'₺'+Math.round(n).toLocaleString('tr-TR')}function pop(x){let e=$('toast');e.textContent=x;e.style.display='block';setTimeout(()=>e.style.display='none',1900)}function key(e){return'raplife:user:'+e.toLowerCase()}function defaultState(stage){return{day:1,money:12000,fame:400,q:0,songs:[],owned:[],cool:0,gf:false,stage}}
+async function hash(s){let b=new TextEncoder().encode(s),h=await crypto.subtle.digest('SHA-256',b);return[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function authMode(m){mode=m;$('regTab').classList.toggle('active',m==='register');$('loginTab').classList.toggle('active',m==='login');$('stage').classList.toggle('hidden',m==='login');$('authAction').textContent=m==='register'?'Hesap Oluştur':'Giriş Yap';$('authTitle').textContent=m==='register'?'Yeni sanatçı hesabı oluştur.':'Kariyerine devam et.'}
+async function submitAuth(){let e=$('email').value.trim().toLowerCase(),p=$('password').value,st=$('stage').value.trim();if(!e||!p||(mode==='register'&&!st))return pop('Gerekli alanları doldur.');let rec=JSON.parse(localStorage.getItem(key(e))||'null');if(mode==='register'){if(rec)return pop('Bu e-posta bu cihazda kayıtlı.');rec={hash:await hash(p),state:defaultState(st)};localStorage.setItem(key(e),JSON.stringify(rec))}else{if(!rec)return pop('Bu cihazda böyle bir hesap yok.');if(rec.hash!==await hash(p))return pop('Şifre yanlış.')}currentUser=e;S=rec.state;localStorage.raplifeSession=e;enter()}
+function enter(){$('auth').classList.add('hidden');$('accountEmail').textContent=currentUser;draw();tab('career')}
+function logout(){delete localStorage.raplifeSession;currentUser=null;S=null;closeMenu();$('auth').classList.remove('hidden');authMode('login')}
+function persist(){if(currentUser){let rec=JSON.parse(localStorage.getItem(key(currentUser)));rec.state=S;localStorage.setItem(key(currentUser),JSON.stringify(rec))}draw()}
+function openMenu(){$('drawer').classList.remove('hidden');$('drawerBackdrop').classList.remove('hidden')}function closeMenu(){$('drawer').classList.add('hidden');$('drawerBackdrop').classList.add('hidden')}
+$('drawerNav').innerHTML=NAV.map(([n,id])=>`<button data-id="${id}" onclick="tab('${id}')">${n}</button>`).join('');
+function tab(id){currentScreen=id;document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');let n=NAV.find(x=>x[1]===id);$('pageTitle').textContent=n?n[0]:'RAP LIFE TR';document.querySelectorAll('#drawerNav button').forEach(b=>b.classList.toggle('active',b.dataset.id===id));closeMenu();if(id==='duet')artists()}
+function release(){let n=$('song').value.trim();if(!n)return pop('Şarkı adı girmeden yayınlayamazsın.');let cost=900+S.q*140;if(S.money<cost)return pop('Prodüksiyon için paran yetmiyor.');S.money-=cost;let base=Math.max(70,Math.round((120+S.fame*.05)*(1+S.q*.12)*(.8+Math.random()*.35)));S.songs.unshift({n,s:base});S.fame+=Math.max(1,Math.round(base/120));$('song').value='';persist();pop(`${n}: ${base} ilk gün stream`)}
 function rest(){let now=Date.now();if(now-lastRest<5000)return pop(`Tekrar dinlenmek için ${Math.ceil((5000-(now-lastRest))/1000)} sn bekle.`);lastRest=now;S.day++;let earn=0;S.songs.forEach(x=>{let inc=Math.max(4,Math.round(8+x.s*.025*(.8+Math.random()*.5)));x.s+=inc;earn+=inc*.018});S.money+=earn;persist();pop(`Ertesi gün • ${fmt(earn)} katalog geliri`)}
-function artists(){let z=[...A].sort((a,b)=>sort.value==='asc'?a[1]-b[1]:b[1]-a[1]);document.getElementById('artists').innerHTML=z.map((a,i)=>{let ok=S.fame>=a[2];return`<div class="item"><div><b>${a[0]}</b><div class="muted">Gerekli şöhret: ${a[2].toLocaleString('tr-TR')}</div></div><button class="${ok?'':'danger'}" ${ok?'':'disabled'} onclick="openDuet('${a[0]}',${a[1]},${a[2]})">${ok?fmt(a[1]):'Kilitli'}</button></div>`}).join('')}
-function openDuet(n,p,r){if(S.fame<r)return pop(`Bu düet için en az ${r.toLocaleString('tr-TR')} şöhret gerekli.`);pendingDuet={n,p,r};duetTitle.textContent=n+' ile Düet';duetReq.textContent=`Bedel ${fmt(p)} • Gerekli şöhret ${r.toLocaleString('tr-TR')}`;duetSong.value='';duetModal.classList.remove('hidden')}
-function closeDuet(){duetModal.classList.add('hidden');pendingDuet=null}
-function confirmDuet(){if(!pendingDuet)return;let name=duetSong.value.trim();if(!name)return pop('Düet şarkısının adını girmelisin.');if(S.fame<pendingDuet.r)return pop('Şöhretin yetmiyor.');if(S.money<pendingDuet.p)return pop('Paran yetmiyor.');S.money-=pendingDuet.p;let first=Math.max(120,Math.round((160+S.q*18+pendingDuet.r*.02)*(0.8+Math.random()*.35)));S.songs.unshift({n:name+' (feat. '+pendingDuet.n+')',s:first});S.fame+=Math.max(3,Math.round(pendingDuet.r*.02));closeDuet();persist();pop(`${name} düeti yayınlandı.`)}
+function artists(){if(!S)return;let z=[...A].sort((a,b)=>$('sort').value==='asc'?a[1]-b[1]:b[1]-a[1]);$('artists').innerHTML=z.map(a=>{let ok=S.fame>=a[2];return`<div class="item"><div><b>${a[0]}</b><small>Gerekli şöhret ${a[2].toLocaleString('tr-TR')}</small></div><button ${ok?'':'disabled'} onclick="openDuet('${a[0]}',${a[1]},${a[2]})">${ok?fmt(a[1]):'Kilitli'}</button></div>`}).join('')}
+function openDuet(n,p,r){if(S.fame<r)return pop(`En az ${r.toLocaleString('tr-TR')} şöhret gerekli.`);pendingDuet={n,p,r};$('duetTitle').textContent=n+' ile Düet';$('duetReq').textContent=`Bedel ${fmt(p)} • Gerekli şöhret ${r.toLocaleString('tr-TR')}`;$('duetSong').value='';$('duetModal').classList.remove('hidden')}
+function closeDuet(){$('duetModal').classList.add('hidden');pendingDuet=null}
+function confirmDuet(){if(!pendingDuet)return;let name=$('duetSong').value.trim();if(!name)return pop('Düet şarkısının adını girmelisin.');if(S.fame<pendingDuet.r)return pop('Şöhretin yetmiyor.');if(S.money<pendingDuet.p)return pop('Paran yetmiyor.');S.money-=pendingDuet.p;let first=Math.max(120,Math.round((160+S.q*18+pendingDuet.r*.02)*(.8+Math.random()*.35)));S.songs.unshift({n:`${name} (feat. ${pendingDuet.n})`,s:first});S.fame+=Math.max(3,Math.round(pendingDuet.r*.02));closeDuet();persist();pop(`${name} düeti yayınlandı.`)}
 function buy(n,p,q){if(S.owned.includes(n))return pop('Zaten sende.');if(S.money<p)return pop('Paran yetmiyor.');S.money-=p;S.q+=q;S.owned.push(n);persist();pop(`${n} alındı • kalite +${q}`)}
 function offer(n,p){let now=Date.now();if(S.cool&&now<S.cool)return pop(`Yeni sponsorluk için ${Math.ceil((S.cool-now)/1000)} sn bekle.`);S.money+=p;S.fame+=4;S.cool=now+60000;persist();pop(`${n}: ${fmt(p)} kazandın.`)}
-function tweet(kind){let n=target.value;let mine=kind==='diss'?`${n}, müzik konuşunca her şey belli olur.`:`${n} respect. İyi iş yapıyor.`;feed.innerHTML=`<div class="tweet"><b>${S.stage}</b><br>${mine}</div>`+feed.innerHTML;setTimeout(()=>{let r=kind==='diss'?['Parçanı çıkar da orada konuşalım.','Gündem arama, müzik yap.'][Math.floor(Math.random()*2)]:['Eyvallah, respect.','Sevgi karşılıklı.'][Math.floor(Math.random()*2)];feed.innerHTML=`<div class="tweet"><b>${n}</b><br>${r}</div>`+feed.innerHTML},1000)}
-function girlfriend(){if(S.gf)return pop('Zaten ilişkin var.');if(S.fame<1500)return pop('İlişkiler için 1.500 şöhret gerekiyor.');S.gf=true;persist();gf.innerHTML='<b>Bir ilişkin var.</b><div class="muted">Kariyer / özel hayat dengesi aktif.</div>'}
-function draw(){if(!S)return;day.textContent=S.day;money.textContent=fmt(S.money);fame.textContent=S.fame.toLocaleString('tr-TR');artistName.textContent=S.stage;careerInfo.innerHTML=`<b>${S.stage}</b><div class="muted">${S.songs.length} yayın • kalite puanı ${S.q}</div>`;songs.innerHTML=S.songs.length?S.songs.map(x=>`<div class="item"><b>${x.n}</b><span>${x.s.toLocaleString('tr-TR')} stream</span></div>`).join(''):'<div class="muted">Henüz yayın yok.</div>';gears.innerHTML=G.map(x=>`<div class="item"><div><b>${x[0]}</b><div class="muted">Kalite +${x[2]}</div></div><button onclick="buy('${x[0]}',${x[1]},${x[2]})">${S.owned.includes(x[0])?'Alındı':fmt(x[1])}</button></div>`).join('');teams.innerHTML=T.map(x=>`<div class="item"><div><b>${x[0]}</b><div class="muted">Kalite +${x[2]}</div></div><button onclick="buy('${x[0]}',${x[1]},${x[2]})">${S.owned.includes(x[0])?'Seçildi':fmt(x[1])}</button></div>`).join('');brands.innerHTML=B.map(x=>`<div class="item"><b>${x[0]}</b><button onclick="offer('${x[0]}',${x[1]})">+${fmt(x[1])}</button></div>`).join('');target.innerHTML=A.slice(0,15).map(x=>`<option>${x[0]}</option>`).join('');if(S.gf)gf.innerHTML='<b>Bir ilişkin var.</b><div class="muted">Kariyer / özel hayat dengesi aktif.</div>';artists()}
-let sess=localStorage.raplifeSession,rec=sess&&JSON.parse(localStorage.getItem(userKey(sess))||'null');if(rec){currentUser=sess;S=rec.state;enter()}
+function tweet(kind){let n=$('target').value,mine=kind==='diss'?`${n}, rakam konuşmak kolay; müzik konuşsun.`:`${n} respect. İyi iş yapıyor.`;$('feed').innerHTML=`<div class="tweet ${kind}"><b>@${S.stage}</b><p>${mine}</p></div>`+$('feed').innerHTML;setTimeout(()=>{let r=kind==='diss'?'Tweet atmak kolay. Parçanı çıkar da orada konuşalım.':'Eyvallah, respect karşılıklı.';$('feed').innerHTML=`<div class="tweet ${kind}"><b>@${n}</b><p>${r}</p></div>`+$('feed').innerHTML},1000)}
+function girlfriend(){if(S.gf)return pop('Zaten ilişkin var.');if(S.fame<1500)return pop('İlişki seçenekleri 1.500 şöhrette açılır.');S.gf=true;persist();pop('Yeni bir ilişki başladı.')}
+function draw(){if(!S)return;$('day').textContent=S.day;$('money').textContent=fmt(S.money);$('fame').textContent=S.fame.toLocaleString('tr-TR');$('artistName').textContent=S.stage;$('heroStage').textContent=S.stage;$('careerInfo').textContent=`${S.songs.length} yayın • kalite puanı ${S.q} • toplam ${S.songs.reduce((a,x)=>a+x.s,0).toLocaleString('tr-TR')} stream`;$('songs').innerHTML=S.songs.length?S.songs.map(x=>`<div class="item"><b>${x.n}</b><span>${x.s.toLocaleString('tr-TR')} stream</span></div>`).join(''):'<div class="muted">Henüz yayın yok.</div>';$('gears').innerHTML=G.map(x=>`<div class="item"><div><b>${x[0]}</b><small>Kalite +${x[2]}</small></div><button onclick="buy('${x[0].replace(/'/g,'')}',${x[1]},${x[2]})">${S.owned.includes(x[0])?'Alındı':fmt(x[1])}</button></div>`).join('');$('teams').innerHTML=T.map(x=>`<div class="item"><div><b>${x[0]}</b><small>Kalite +${x[2]}</small></div><button onclick="buy('${x[0].replace(/'/g,'')}',${x[1]},${x[2]})">${S.owned.includes(x[0])?'Seçildi':fmt(x[1])}</button></div>`).join('');$('brands').innerHTML=B.map(x=>`<div class="item"><b>${x[0]}</b><button onclick="offer('${x[0]}',${x[1]})">+${fmt(x[1])}</button></div>`).join('');$('target').innerHTML=A.slice(0,15).map(x=>`<option>${x[0]}</option>`).join('');$('gf').innerHTML=S.gf?'<b>Bir ilişkin var.</b><div class="muted">Kariyer / özel hayat dengesi aktif.</div>':'Bekarsın.';artists()}
+let sess=localStorage.raplifeSession,rec=sess&&JSON.parse(localStorage.getItem(key(sess))||'null');if(rec){currentUser=sess;S=rec.state;enter()}else authMode('register');
 </script>
-</body></html>
+</body>
+</html>
