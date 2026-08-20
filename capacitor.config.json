@@ -1,0 +1,8 @@
+{
+  "appId": "com.flowend.raplifetr",
+  "appName": "RAP LIFE TR",
+  "webDir": "rap-life-tr",
+  "server": {
+    "androidScheme": "https"
+  }
+}
